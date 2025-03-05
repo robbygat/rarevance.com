@@ -17,7 +17,7 @@
     }
     html, body {
       height: 100%;
-      font-family: Arial, sans-serif;
+      font-family: 'Myriad Pro', Arial, sans-serif; /* Updated to Myriad Pro with fallback */
       font-weight: bold;
       color: #000;
       overflow-x: hidden;
@@ -55,21 +55,30 @@
     }
     /* Mint Button */
     .mint-button {
-      background-color: #fff;
+      background-color: #FF4500; /* Bright orange for visibility */
       border: none;
       padding: 15px 30px;
-      font-size: clamp(1rem, 5vw, 1.5rem);
+      font-size: clamp(1rem, 5vw, 1.5rem); /* Responsive button text size */
+      font-family: 'Myriad Pro', Arial, sans-serif;
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
       text-decoration: none;
       display: inline-block;
       margin-bottom: 20px;
+      color: white; /* White text for contrast */
+      min-width: 250px; /* Larger button for mobile touch targets */
+      touch-action: manipulation; /* Improves touch responsiveness */
+      -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
     }
     .mint-button:hover, .mint-button:focus {
       transform: scale(1.05);
       box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+      background-color: #FF6347; /* Lighter orange on hover */
+    }
+    .mint-button:active {
+      transform: scale(0.95);
     }
     /* Description text box */
     .description-box {
@@ -82,6 +91,7 @@
       line-height: 1.6;
       text-align: left;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: fadeInUp 1.5s ease-out;
     }
     /* GIF container */
     .gif-container {
@@ -93,10 +103,6 @@
       width: 100%;
       border-radius: 10px;
       display: block;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     /* Flip Card Section */
     .flip-card-section {
@@ -163,6 +169,16 @@
         text-align: left;
       }
     }
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
@@ -175,8 +191,8 @@
       <div class="animated-header">RareVance.com by robbygat</div>
     </header>
     
-    <!-- Mint button at the top -->
-    <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Mint Here!</a>
+    <!-- Mobile-optimized Mint button at the top -->
+    <a href="https://opensea.io/collection/rarevance/mint" target="_blank" rel="noopener noreferrer" class="mint-button">Mint Here!</a>
     
     <!-- Content Wrapper: GIF & Description -->
     <div class="content-wrapper">
@@ -259,7 +275,7 @@
     });
   </script>
 
-  <!-- Fallback JavaScript for GIF handling and touch events -->
+  <!-- Fallback JavaScript for GIF handling, touch events, and mobile mint button optimization -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const gif = document.querySelector('.gif-container img');
@@ -268,14 +284,41 @@
           console.log('GIF failed to load. Check the file path or file integrity.');
         }
       }
-      const button = document.querySelector('.mint-button');
-      if (button) {
-        button.addEventListener('touchstart', function(e) {
-          e.preventDefault();
+
+      const mintButton = document.querySelector('.mint-button');
+      if (mintButton) {
+        // Enhanced mobile touch handling for mint button
+        mintButton.addEventListener('touchstart', function(e) {
+          e.preventDefault(); // Prevents default touch behavior
           this.classList.add('active');
         });
-        button.addEventListener('touchend', function() {
+        mintButton.addEventListener('touchend', function() {
           this.classList.remove('active');
+          window.open(this.closest('a').href, '_blank', 'noopener,noreferrer'); // Open link in new tab on touch end
+        });
+        mintButton.addEventListener('click', function(e) {
+          if (e.type === 'click' && !('ontouchstart' in window)) {
+            // Handle desktop clicks (non-touch devices)
+            window.open(this.closest('a').href, '_blank', 'noopener,noreferrer');
+          }
+        });
+
+        // Prevent double-tap zoom on mobile
+        mintButton.addEventListener('touchend', function(e) {
+          e.preventDefault(); // Prevents accidental zooming
+        });
+      }
+
+      // Touch event handling for flip card (if needed, though it uses click)
+      const flipCard = document.getElementById('flipCard');
+      if (flipCard) {
+        flipCard.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          this.classList.add('touched');
+        });
+        flipCard.addEventListener('touchend', function() {
+          this.classList.remove('touched');
+          this.click(); // Trigger click event on touch end for mobile
         });
       }
     });
