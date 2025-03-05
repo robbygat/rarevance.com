@@ -26,6 +26,7 @@
             max-width: 100%; /* Ensures GIF scales with screen size */
             height: auto; /* Maintains aspect ratio */
             border-radius: 10px; /* Optional: Rounded corners for styling */
+            display: block; /* Removes any unwanted spacing below the image */
         }
 
         h1 {
@@ -58,10 +59,21 @@
     </style>
 </head>
 <body>
-    <h1>RareVance.com</h1>
+    <h1>RareVance.Com</h1>
     <div class="gif-container">
-        <img src="MG_8588.GIF" alt="RareVance GIF">
+        <img src="MG_8588.GIF" alt="RareVance GIF" loop="infinite" autoplay>
     </div>
     <button>Mint Coming Soon</button>
+
+    <!-- Fallback JavaScript to ensure GIF loops (optional, in case of browser issues) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gif = document.querySelector('.gif-container img');
+            if (gif) {
+                gif.setAttribute('loop', 'infinite'); // Force loop attribute
+                gif.setAttribute('autoplay', ''); // Force autoplay (though GIFs typically handle this)
+            }
+        });
+    </script>
 </body>
 </html>
