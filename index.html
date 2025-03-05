@@ -53,7 +53,20 @@
       50% { color: #DAA520; }
       100% { color: #000; }
     }
-    /* Mint Button */
+    /* Mint Buttons */
+    .mint-buttons {
+      display: flex;
+      flex-direction: column; /* Stack on mobile */
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 768px) {
+      .mint-buttons {
+        flex-direction: row; /* Side-by-side on desktop */
+        justify-content: center;
+      }
+    }
     .mint-button {
       background-color: #FF4500; /* Bright orange for visibility */
       border: none;
@@ -66,7 +79,6 @@
       transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
       text-decoration: none;
       display: inline-block;
-      margin-bottom: 20px;
       color: white; /* White text for contrast */
       min-width: 250px; /* Larger button for mobile touch targets */
       touch-action: manipulation; /* Improves touch responsiveness */
@@ -191,8 +203,11 @@
       <div class="animated-header">RareVance.com by robbygat</div>
     </header>
     
-    <!-- Mobile-optimized Mint button at the top -->
-    <a href="https://www.launchmynft.io/collections/9YBJrDwr6sr2RwnxULPGWmZDgosctVfEse9ba7CSd8uY/r7caIvo7BNuGOTunanDX" target="_blank" rel="noopener noreferrer" class="mint-button">Mint Here!</a>
+    <!-- Mobile-optimized Mint buttons at the top -->
+    <div class="mint-buttons">
+      <a href="https://www.launchmynft.io/collections/9YBJrDwr6sr2RwnxULPGWmZDgosctVfEse9ba7CSd8uY/r7caIvo7BNuGOTunanDX" target="_blank" rel="noopener noreferrer" class="mint-button">Mint on Sol $1</a>
+      <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Mint on Eth $1</a>
+    </div>
     
     <!-- Content Wrapper: GIF & Description -->
     <div class="content-wrapper">
@@ -285,18 +300,18 @@
         }
       }
 
-      const mintButton = document.querySelector('.mint-button');
-      if (mintButton) {
-        // Enhanced mobile touch handling for mint button
-        mintButton.addEventListener('touchstart', function(e) {
+      const mintButtons = document.querySelectorAll('.mint-button');
+      mintButtons.forEach(button => {
+        // Enhanced mobile touch handling for mint buttons
+        button.addEventListener('touchstart', function(e) {
           e.preventDefault(); // Prevents default touch behavior
           this.classList.add('active');
         });
-        mintButton.addEventListener('touchend', function() {
+        button.addEventListener('touchend', function() {
           this.classList.remove('active');
           window.open(this.closest('a').href, '_blank', 'noopener,noreferrer'); // Open link in new tab on touch end
         });
-        mintButton.addEventListener('click', function(e) {
+        button.addEventListener('click', function(e) {
           if (e.type === 'click' && !('ontouchstart' in window)) {
             // Handle desktop clicks (non-touch devices)
             window.open(this.closest('a').href, '_blank', 'noopener,noreferrer');
@@ -304,10 +319,10 @@
         });
 
         // Prevent double-tap zoom on mobile
-        mintButton.addEventListener('touchend', function(e) {
+        button.addEventListener('touchend', function(e) {
           e.preventDefault(); // Prevents accidental zooming
         });
-      }
+      });
 
       // Touch event handling for flip card (if needed, though it uses click)
       const flipCard = document.getElementById('flipCard');
