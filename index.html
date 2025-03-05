@@ -11,58 +11,76 @@
         body {
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* Ensures full viewport height on mobile */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centers vertically */
-            align-items: center; /* Centers horizontally */
+            justify-content: center;
+            align-items: center;
             background-color: #DAA520; /* Goldenrod color */
             font-family: 'Myriad Pro', Arial, sans-serif; /* Myriad Pro as primary, fallbacks */
-            -webkit-font-smoothing: antialiased; /* Improves text rendering on iOS */
+            -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            text-align: center; /* Centers text and elements within the container */
-            padding: 20px; /* Adds padding for touch targets */
-            width: 90%; /* Limits container width on mobile */
-            max-width: 800px; /* Caps width on larger screens */
+            text-align: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px; /* Increased max-width for desktop layout */
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            align-items: center;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            align-items: center;
+            width: 100%;
+        }
+
+        .gif-container, .text-box {
+            width: 100%;
+            max-width: 500px; /* Caps width on larger screens for symmetry */
         }
 
         .gif-container {
-            margin-bottom: 20px; /* Space between GIF and button */
-            max-width: 90%; /* Limits GIF width on mobile */
+            margin-bottom: 20px;
+            animation: fadeInUp 1.5s ease-out; /* Animation for GIF */
         }
 
         img {
-            max-width: 100%; /* Ensures GIF scales with screen size */
-            height: auto; /* Maintains aspect ratio */
-            border-radius: 10px; /* Rounded corners for styling */
-            display: block; /* Removes unwanted spacing below the image */
-            object-fit: contain; /* Ensures the GIF fits within its container without distortion */
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            object-fit: contain;
+            animation: bounce 3s infinite ease-in-out; /* Subtle bounce animation for GIF */
         }
 
         h1 {
             color: white;
-            font-size: clamp(2rem, 10vw, 4rem); /* Responsive font size for mobile */
+            font-size: clamp(2rem, 10vw, 4rem);
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in; /* Animation for title */
         }
 
         button {
             background-color: white;
             border: none;
             padding: 15px 30px;
-            font-size: clamp(1rem, 5vw, 1.5rem); /* Responsive button text size */
+            font-size: clamp(1rem, 5vw, 1.5rem);
             font-family: 'Myriad Pro', Arial, sans-serif;
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
-            min-width: 200px; /* Ensures button is touch-friendly */
-            touch-action: manipulation; /* Improves touch responsiveness on mobile */
-            text-decoration: none; /* Removes default link underline */
-            display: inline-block; /* Ensures button behaves as a block for centering */
+            min-width: 200px;
+            touch-action: manipulation;
+            text-decoration: none;
+            display: inline-block;
+            animation: pulse 2s infinite ease-in-out; /* Pulse animation for button */
         }
 
         button:hover, button:focus {
@@ -77,43 +95,81 @@
         .text-box {
             background-color: white;
             padding: 20px;
-            margin-top: 20px; /* Space between button and text box */
+            margin-top: 20px; /* Space above text box on mobile */
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow-wrap: break-word; /* Ensures text wraps on mobile */
-            font-size: clamp(0.8rem, 3vw, 1rem); /* Responsive text size for mobile */
-            color: #333; /* Dark gray text for readability */
-            line-height: 1.5; /* Better readability */
-            max-width: 100%; /* Full width on mobile, constrained on larger screens */
+            overflow-wrap: break-word;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            color: #333;
+            line-height: 1.5;
+            animation: slideInRight 1.5s ease-out; /* Animation for text box */
         }
 
-        /* Media query for larger screens (optional, if you want to tweak desktop behavior) */
+        /* Media query for desktop (side-by-side layout) */
         @media (min-width: 768px) {
+            .content-wrapper {
+                flex-direction: row; /* Side-by-side on desktop */
+                justify-content: center; /* Centers horizontally */
+                gap: 20px; /* Space between GIF and text box */
+            }
+
+            .gif-container, .text-box {
+                max-width: 45%; /* Each takes roughly half the width on desktop */
+                margin: 0; /* Removes default margins for symmetry */
+            }
+
             .gif-container {
-                max-width: 500px; /* Larger GIF on desktop */
+                margin-right: 20px; /* Space between GIF and text box on desktop */
             }
-            button {
-                min-width: 250px; /* Larger button on desktop */
-            }
+
             .text-box {
-                font-size: 1rem; /* Larger text on desktop */
-                max-width: 600px; /* Caps text box width on desktop */
+                margin-top: 0; /* Removes top margin on desktop */
             }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>RareVance.com</h1>
-        <div class="gif-container">
-            <img src="IMG_8588.GIF" alt="RareVance GIF" loop="infinite" autoplay>
+        <div class="content-wrapper">
+            <div class="gif-container">
+                <img src="IMG_8588.GIF" alt="RareVance GIF" loop="infinite" autoplay>
+            </div>
+            <div class="text-box">
+                RareVance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint one RareVance and be a leader of a movement. A status to envy at. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you – robbygat
+            </div>
         </div>
-        <a href="https://opensea.io/collection/rarevance-2025/mint" target="_blank" rel="noopener noreferrer">
+        <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer">
             <button>Mint Here!</button>
         </a>
-        <div class="text-box">
-            RareVance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint one RareVance and be a leader of a movement. A status to envy at. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you – robbygat
-        </div>
     </div>
 
     <!-- Fallback JavaScript to ensure GIF loads and loops -->
