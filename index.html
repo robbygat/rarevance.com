@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>RareVance NFT Mint</title>
+    <title>Mint Your Rare Vance Now!</title>
     <style>
         /* CSS styles - Mobile-first approach */
         body {
@@ -14,8 +14,8 @@
             min-height: 100vh; /* Ensures full viewport height on mobile */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Centers vertically */
+            align-items: center; /* Centers horizontally */
             background-color: #DAA520; /* Goldenrod color */
             font-family: 'Myriad Pro', Arial, sans-serif; /* Myriad Pro as primary, fallbacks */
             -webkit-font-smoothing: antialiased; /* Improves text rendering on iOS */
@@ -23,7 +23,7 @@
         }
 
         .container {
-            text-align: center; /* Centers content for mobile */
+            text-align: center; /* Centers text and elements within the container */
             padding: 20px; /* Adds padding for touch targets */
             width: 90%; /* Limits container width on mobile */
             max-width: 800px; /* Caps width on larger screens */
@@ -61,6 +61,8 @@
             transition: transform 0.2s, box-shadow 0.2s;
             min-width: 200px; /* Ensures button is touch-friendly */
             touch-action: manipulation; /* Improves touch responsiveness on mobile */
+            text-decoration: none; /* Removes default link underline */
+            display: inline-block; /* Ensures button behaves as a block for centering */
         }
 
         button:hover, button:focus {
@@ -106,7 +108,9 @@
         <div class="gif-container">
             <img src="IMG_8588.GIF" alt="RareVance GIF" loop="infinite" autoplay>
         </div>
-        <button>Mint Coming Soon</button>
+        <a href="https://opensea.io/collection/rarevance-2025/mint" target="_blank" rel="noopener noreferrer">
+            <button>Mint Here!</button>
+        </a>
         <div class="text-box">
             RareVance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint one RareVance and be a leader of a movement. A status to envy at. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you – robbygat
         </div>
@@ -139,4 +143,3 @@
     </script>
 </body>
 </html>
-
