@@ -1,300 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Mint Your Rare Vance Now!</title>
-    <style>
-        /* CSS styles - Mobile-first approach */
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* Align content from the top for button visibility */
-            align-items: center;
-            background-color: #DAA520; /* Goldenrod color */
-            font-family: 'Myriad Pro', Arial, sans-serif; /* Myriad Pro as primary, fallbacks */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            width: 90%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .mint-button {
-            background-color: #FF4500; /* Bright orange for visibility */
-            border: none;
-            padding: 20px 40px;
-            font-size: clamp(1.2rem, 6vw, 2rem); /* Larger, responsive button text size */
-            font-family: 'Myriad Pro', Arial, sans-serif;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-            min-width: 250px; /* Larger button for visibility */
-            touch-action: manipulation;
-            text-decoration: none;
-            display: inline-block;
-            color: white; /* White text for contrast */
-            margin-bottom: 20px; /* Space below button */
-            animation: pulse 2s infinite ease-in-out; /* Pulse animation for visibility */
-        }
-
-        .mint-button:hover, .mint-button:focus {
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            background-color: #FF6347; /* Lighter orange on hover */
-        }
-
-        .mint-button:active {
-            transform: scale(0.95);
-        }
-
-        .content-wrapper {
-            display: flex;
-            flex-direction: column; /* Stack on mobile */
-            align-items: center;
-            width: 100%;
-            margin-top: 20px; /* Space above content */
-        }
-
-        .card-container {
-            perspective: 1000px; /* Enables 3D flipping */
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .card {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .card-front {
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-front img, .card-back img {
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .flip {
-            transform: rotateY(180deg);
-        }
-
-        .gif-container, .text-box {
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .gif-container {
-            animation: fadeInUp 1.5s ease-out;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            display: block;
-            object-fit: contain;
-        }
-
-        h1 {
-            color: white;
-            font-size: clamp(2rem, 10vw, 4rem);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-in;
-        }
-
-        .text-box {
-            background-color: white;
-            padding: 20px;
-            margin-top: 20px; /* Space above text box on mobile */
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow-wrap: break-word;
-            font-size: clamp(0.8rem, 3vw, 1rem);
-            color: #333;
-            line-height: 1.5;
-            animation: slideInRight 1.5s ease-out;
-        }
-
-        /* Media query for desktop (side-by-side layout) */
-        @media (min-width: 768px) {
-            .content-wrapper {
-                flex-direction: row; /* Side-by-side on desktop */
-                justify-content: center;
-                gap: 20px;
-            }
-
-            .card-container, .text-box {
-                max-width: 45%; /* Each takes roughly half the width on desktop */
-                margin: 0;
-            }
-
-            .card-container {
-                margin-right: 20px; /* Space between card and text box on desktop */
-            }
-
-            .text-box {
-                margin-top: 0; /* Removes top margin on desktop */
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Mint Your Rare Vance Now!</title>
+  <!-- Include Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: #000;
+      overflow-x: hidden;
+    }
+    /* Three.js background canvas fills the page */
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    /* Container styling */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    header {
+      margin-bottom: 20px;
+    }
+    /* Animated header text */
+    .animated-header {
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: #000;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: colorCycle 5s infinite alternate;
+    }
+    @keyframes colorCycle {
+      0% { color: #000; }
+      50% { color: #DAA520; }
+      100% { color: #000; }
+    }
+    /* Mint Button */
+    .mint-button {
+      background-color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: clamp(1rem, 5vw, 1.5rem);
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .mint-button:hover, .mint-button:focus {
+      transform: scale(1.05);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    }
+    /* Description text box */
+    .description-box {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 800px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.6;
+      text-align: left;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    /* GIF container */
+    .gif-container {
+      margin: 20px auto;
+      max-width: 500px;
+      animation: fadeInUp 1.5s ease-out;
+    }
+    .gif-container img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Flip Card Section */
+    .flip-card-section {
+      margin: 40px auto;
+      max-width: 300px;
+      text-align: center;
+    }
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      height: 400px;
+      perspective: 1000px;
+      margin: 0 auto;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+    }
+    .flip-card-front {
+      background: url('CardBack.png') center center/cover no-repeat;
+    }
+    .flip-card-back {
+      background-color: #fff;
+      transform: rotateY(180deg);
+      background-size: cover;
+    }
+    .flip-text {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #000;
+    }
+    /* Responsive layout for content */
+    @media (min-width: 768px) {
+      .content-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+      }
+      .gif-container, .description-box {
+        flex: 1;
+      }
+      .description-box {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer">
-            <button class="mint-button">Mint Here!</button>
-        </a>
-        <div class="content-wrapper">
-            <div class="card-container">
-                <div class="card" id="nftCard">
-                    <div class="card-front">
-                        <img src="IMG_8588.GIF" alt="RareVance GIF" id="frontImage" loop="infinite" autoplay>
-                    </div>
-                    <div class="card-back" id="backCard">
-                        <img src="" alt="Random RareVance NFT" id="backImage">
-                    </div>
-                </div>
-                <button id="flipButton" style="margin-top: 10px; padding: 10px 20px; font-size: 1rem;">Flip the Card!</button>
-            </div>
-            <div class="text-box">
-                RareVance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint one RareVance and be a leader of a movement. A status to envy at. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you – robbygat
-            </div>
-        </div>
+  <!-- Three.js Background Canvas -->
+  <canvas id="bg"></canvas>
+
+  <div class="container">
+    <!-- Animated header -->
+    <header>
+      <div class="animated-header">RareVance.com</div>
+    </header>
+    
+    <!-- Mint button at the top -->
+    <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Mint Here!</a>
+    
+    <!-- Content Wrapper: Description & GIF -->
+    <div class="content-wrapper">
+      <!-- Description Box -->
+      <div class="description-box">
+        <p>
+          Rare Vance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint a Rare Vance Card and be a leader of a movement—a status to envy. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you.
+        </p>
+      </div>
+      <!-- GIF Container -->
+      <div class="gif-container">
+        <img src="IMG_8588.GIF" alt="RareVance GIF" />
+      </div>
     </div>
+    
+    <!-- Flip Card Section -->
+    <div class="flip-card-section">
+      <p class="flip-text">See what card you could get. Click here for a test.</p>
+      <div class="flip-card" id="flipCard">
+        <div class="flip-card-inner">
+          <div class="flip-card-front"></div>
+          <div class="flip-card-back"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- JavaScript for card flipping and NFT randomization -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const gif = document.getElementById('frontImage');
-            const card = document.getElementById('nftCard');
-            const flipButton = document.getElementById('flipButton');
-            const backImage = document.getElementById('backImage');
+  <!-- Three.js Background Script -->
+  <script>
+    // Basic Three.js animation with goldenrod palette
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#DAA520");
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("bg"), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.position.z = 5;
 
-            // Ensure GIF loads fully before enabling interactions
-            let isLoaded = false;
-            if (gif) {
-                gif.setAttribute('loop', 'infinite');
-                gif.setAttribute('autoplay', '');
-                gif.onload = function() {
-                    isLoaded = true;
-                    console.log('GIF loaded successfully.');
-                };
-                if (!gif.complete || gif.naturalWidth === 0) {
-                    console.log('GIF failed to load. Check the file path or file integrity.');
-                    isLoaded = false; // Fallback if load fails
-                }
-            }
+    // Create a rotating torus knot as background element
+    const geometry = new THREE.TorusKnotGeometry(1.5, 0.5, 100, 16);
+    const material = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.7, metalness: 0.3 });
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
 
-            // Array of NFT image URLs (replace with your actual Pinata IPFS URLs for 0.png to 49.png)
-            const nftImages = [];
-            for (let i = 0; i < 50; i++) {
-                nftImages.push(`https://gateway.pinata.cloud/ipfs/bafybeidzkyxe7jhpaieule7h276zgjposmgb6lljjp4ai73cvgwq2jra6a/${i}.png`);
-            }
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(25, 50, 25);
+    scene.add(pointLight);
 
-            // Handle card flip and randomization
-            let isFlipped = false;
-            flipButton.addEventListener('click', function() {
-                if (isLoaded) { // Only allow flipping if GIF is loaded
-                    if (!isFlipped) {
-                        // Randomly select an NFT image
-                        const randomNFT = nftImages[Math.floor(Math.random() * nftImages.length)];
-                        backImage.src = randomNFT;
-                        backImage.onload = function() {
-                            card.classList.add('flip'); // Flip the card
-                            isFlipped = true;
-                            console.log('Flipped to reveal:', randomNFT);
-                        };
-                    } else {
-                        card.classList.remove('flip'); // Flip back
-                        isFlipped = false;
-                    }
-                } else {
-                    alert('Please wait for the page to fully load before flipping the card.');
-                }
-            });
+    function animate() {
+      requestAnimationFrame(animate);
+      torusKnot.rotation.x += 0.005;
+      torusKnot.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
 
-            // Touch event handling for better mobile interaction
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    this.classList.add('active');
-                });
-                button.addEventListener('touchend', function() {
-                    this.classList.remove('active');
-                });
-            });
+    // Handle window resize for Three.js
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <!-- Flip Card Script -->
+  <script>
+    const flipCard = document.getElementById('flipCard');
+    const flipCardInner = flipCard.querySelector('.flip-card-inner');
+    const flipCardBack = flipCard.querySelector('.flip-card-back');
+
+    // When card is clicked, flip and set a random card image (from 9.png to 23.png)
+    flipCard.addEventListener('click', () => {
+      // Randomly pick an image between 9 and 23
+      const randomIndex = Math.floor(Math.random() * (23 - 9 + 1)) + 9;
+      flipCardBack.style.backgroundImage = `url('${randomIndex}.png')`;
+      // Toggle flip
+      flipCard.classList.toggle('flipped');
+      // Optional: flip back after 3 seconds (if desired)
+      setTimeout(() => {
+        flipCard.classList.toggle('flipped');
+      }, 3000);
+    });
+  </script>
+
+  <!-- Fallback JavaScript for GIF handling and touch events -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const gif = document.querySelector('.gif-container img');
+      if (gif) {
+        // Just a console check for GIF load
+        if (!gif.complete || gif.naturalWidth === 0) {
+          console.log('GIF failed to load. Check the file path or file integrity.');
+        }
+      }
+      // Touch event handling for mint button if needed
+      const button = document.querySelector('.mint-button');
+      if (button) {
+        button.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          this.classList.add('active');
         });
-    </script>
+        button.addEventListener('touchend', function() {
+          this.classList.remove('active');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
