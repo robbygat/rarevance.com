@@ -59,19 +59,22 @@
     </style>
 </head>
 <body>
-    <h1>RareVance.Com</h1>
+    <h1>RareVance.com</h1>
     <div class="gif-container">
         <img src="MG_8588.GIF" alt="RareVance GIF" loop="infinite" autoplay>
     </div>
     <button>Mint Coming Soon</button>
 
-    <!-- Fallback JavaScript to ensure GIF loops (optional, in case of browser issues) -->
+    <!-- Fallback JavaScript to ensure GIF loads and loops -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const gif = document.querySelector('.gif-container img');
             if (gif) {
                 gif.setAttribute('loop', 'infinite'); // Force loop attribute
                 gif.setAttribute('autoplay', ''); // Force autoplay (though GIFs typically handle this)
+                if (!gif.complete || gif.naturalWidth === 0) {
+                    console.log('GIF failed to load. Check the file path or file integrity.');
+                }
             }
         });
     </script>
