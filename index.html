@@ -138,15 +138,20 @@
       transform: rotateY(180deg);
       background-size: cover;
     }
-    .flip-text {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: #000;
-    }
     /* Responsive layout for content */
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* On mobile, show the GIF above the description */
+    @media (max-width: 767px) {
+      .gif-container {
+        order: -1;
+      }
+    }
     @media (min-width: 768px) {
       .content-wrapper {
-        display: flex;
         flex-direction: row;
         justify-content: center;
         gap: 20px;
@@ -173,23 +178,22 @@
     <!-- Mint button at the top -->
     <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Mint Here!</a>
     
-    <!-- Content Wrapper: Description & GIF -->
+    <!-- Content Wrapper: GIF & Description -->
     <div class="content-wrapper">
+      <!-- GIF Container -->
+      <div class="gif-container">
+        <img src="IMG_8588.GIF" alt="RareVance GIF" />
+      </div>
       <!-- Description Box -->
       <div class="description-box">
         <p>
           Rare Vance (2025) is a paradigm shift in crypto, separating the new from the old. Some people had opportunities to collect the holy grails of crypto, but their advantage was time and having no competition. Now you are being given another chance to collect one of 50 1/1 artworks that will forever live in legacy. If you are viewing this mint page, you are very lucky. Look at it for a minute... think about this opportunity and assess the risks. It is time to create the new paradigm shift, it is time to take your legacy into your own hands. You can mint a Rare Vance Card and be a leader of a movement—a status to envy. All you need to do is press the button and believe in yourself... or don’t. But when you come back to this page and it is minted out, please don’t hate yourself. I hope you made the right decision that fits you.
         </p>
       </div>
-      <!-- GIF Container -->
-      <div class="gif-container">
-        <img src="IMG_8588.GIF" alt="RareVance GIF" />
-      </div>
     </div>
     
     <!-- Flip Card Section -->
     <div class="flip-card-section">
-      <p class="flip-text">See what card you could get. Click here for a test.</p>
       <div class="flip-card" id="flipCard">
         <div class="flip-card-inner">
           <div class="flip-card-front"></div>
@@ -246,12 +250,9 @@
 
     // When card is clicked, flip and set a random card image (from 9.png to 23.png)
     flipCard.addEventListener('click', () => {
-      // Randomly pick an image between 9 and 23
       const randomIndex = Math.floor(Math.random() * (23 - 9 + 1)) + 9;
       flipCardBack.style.backgroundImage = `url('${randomIndex}.png')`;
-      // Toggle flip
       flipCard.classList.toggle('flipped');
-      // Optional: flip back after 3 seconds (if desired)
       setTimeout(() => {
         flipCard.classList.toggle('flipped');
       }, 3000);
@@ -263,12 +264,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       const gif = document.querySelector('.gif-container img');
       if (gif) {
-        // Just a console check for GIF load
         if (!gif.complete || gif.naturalWidth === 0) {
           console.log('GIF failed to load. Check the file path or file integrity.');
         }
       }
-      // Touch event handling for mint button if needed
       const button = document.querySelector('.mint-button');
       if (button) {
         button.addEventListener('touchstart', function(e) {
