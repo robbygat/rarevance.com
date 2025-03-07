@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Mint Your Rare Vance Now!</title>
+  <title>Holy Rare Vance Sold Out!</title>
   <!-- Include Three.js from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
@@ -17,7 +17,7 @@
     }
     html, body {
       height: 100%;
-      font-family: 'Myriad Pro', Arial, sans-serif; /* Updated to Myriad Pro with fallback */
+      font-family: 'Myriad Pro', Arial, sans-serif;
       font-weight: bold;
       color: #000;
       overflow-x: hidden;
@@ -68,10 +68,10 @@
       }
     }
     .mint-button {
-      background-color: #FF4500; /* Bright orange for visibility */
+      background-color: #FF4500;
       border: none;
       padding: 15px 30px;
-      font-size: clamp(1rem, 5vw, 1.5rem); /* Responsive button text size */
+      font-size: clamp(1rem, 5vw, 1.5rem);
       font-family: 'Myriad Pro', Arial, sans-serif;
       border-radius: 10px;
       cursor: pointer;
@@ -79,15 +79,15 @@
       transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
       text-decoration: none;
       display: inline-block;
-      color: white; /* White text for contrast */
-      min-width: 250px; /* Larger button for mobile touch targets */
-      touch-action: manipulation; /* Improves touch responsiveness */
-      -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+      color: white;
+      min-width: 250px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .mint-button:hover, .mint-button:focus {
       transform: scale(1.05);
       box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-      background-color: #FF6347; /* Lighter orange on hover */
+      background-color: #FF6347;
     }
     .mint-button:active {
       transform: scale(0.95);
@@ -128,6 +128,8 @@
       height: 400px;
       perspective: 1000px;
       margin: 0 auto;
+      position: relative;
+      overflow: hidden;
     }
     .flip-card-inner {
       position: relative;
@@ -156,13 +158,32 @@
       transform: rotateY(180deg);
       background-size: cover;
     }
+    /* Shining effect for flip card */
+    .flip-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
+      transform: skewX(-25deg);
+      opacity: 0;
+    }
+    .flip-card.shine::before {
+      animation: shine 1s forwards;
+    }
+    @keyframes shine {
+      0% { left: -75%; opacity: 0; }
+      50% { opacity: 1; }
+      100% { left: 125%; opacity: 0; }
+    }
     /* Responsive layout for content */
     .content-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    /* On mobile, show the GIF above the description */
     @media (max-width: 767px) {
       .gif-container {
         order: -1;
@@ -205,8 +226,8 @@
     
     <!-- Mobile-optimized Mint buttons at the top -->
     <div class="mint-buttons">
-      <a href="https://www.launchmynft.io/collections/9YBJrDwr6sr2RwnxULPGWmZDgosctVfEse9ba7CSd8uY/r7caIvo7BNuGOTunanDX" target="_blank" rel="noopener noreferrer" class="mint-button">Mint on Sol $1</a>
-      <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Mint on Eth $1</a>
+      <a href="https://www.launchmynft.io/collections/9YBJrDwr6sr2RwnxULPGWmZDgosctVfEse9ba7CSd8uY/r7caIvo7BNuGOTunanDX" target="_blank" rel="noopener noreferrer" class="mint-button">Solana (SOLD OUT)</a>
+      <a href="https://opensea.io/collection/rarevance/overview" target="_blank" rel="noopener noreferrer" class="mint-button">Ethereum (SOLD OUT)</a>
     </div>
     
     <!-- Content Wrapper: GIF & Description -->
@@ -273,16 +294,26 @@
     });
   </script>
 
-  <!-- Flip Card Script -->
+  <!-- Flip Card Script with Shining Effect -->
   <script>
     const flipCard = document.getElementById('flipCard');
     const flipCardInner = flipCard.querySelector('.flip-card-inner');
     const flipCardBack = flipCard.querySelector('.flip-card-back');
 
-    // When card is clicked, flip and set a random card image (from 9.png to 23.png)
+    // When card is clicked, flip it, set a random image, and add a shining effect
     flipCard.addEventListener('click', () => {
+      // Set random image for card back (random number between 9 and 23)
       const randomIndex = Math.floor(Math.random() * (23 - 9 + 1)) + 9;
       flipCardBack.style.backgroundImage = `url('${randomIndex}.png')`;
+      
+      // Add shining effect
+      flipCard.classList.add('shine');
+      // Remove shine class after animation (1 second)
+      setTimeout(() => {
+        flipCard.classList.remove('shine');
+      }, 1000);
+      
+      // Flip card by toggling 'flipped' class, then flip back after 3 seconds
       flipCard.classList.toggle('flipped');
       setTimeout(() => {
         flipCard.classList.toggle('flipped');
@@ -304,27 +335,24 @@
       mintButtons.forEach(button => {
         // Enhanced mobile touch handling for mint buttons
         button.addEventListener('touchstart', function(e) {
-          e.preventDefault(); // Prevents default touch behavior
+          e.preventDefault();
           this.classList.add('active');
         });
         button.addEventListener('touchend', function() {
           this.classList.remove('active');
-          window.open(this.closest('a').href, '_blank', 'noopener,noreferrer'); // Open link in new tab on touch end
+          window.open(this.closest('a').href, '_blank', 'noopener,noreferrer');
         });
         button.addEventListener('click', function(e) {
           if (e.type === 'click' && !('ontouchstart' in window)) {
-            // Handle desktop clicks (non-touch devices)
             window.open(this.closest('a').href, '_blank', 'noopener,noreferrer');
           }
         });
-
-        // Prevent double-tap zoom on mobile
         button.addEventListener('touchend', function(e) {
-          e.preventDefault(); // Prevents accidental zooming
+          e.preventDefault();
         });
       });
 
-      // Touch event handling for flip card (if needed, though it uses click)
+      // Touch event handling for flip card (if needed)
       const flipCard = document.getElementById('flipCard');
       if (flipCard) {
         flipCard.addEventListener('touchstart', function(e) {
@@ -333,7 +361,7 @@
         });
         flipCard.addEventListener('touchend', function() {
           this.classList.remove('touched');
-          this.click(); // Trigger click event on touch end for mobile
+          this.click();
         });
       }
     });
